@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package auser;
+option go_package = ".;auser";
+
+import "common.proto";
+
+message DepartData {
+    repeated DepartInfo departs = 1;
+}
+
+
+service DepartManagerService {
+    rpc DepartList(Empty) returns (DepartData) {};
+    rpc ImportDepartData(Empty) returns (BoolRes) {};
+}

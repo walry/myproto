@@ -1,0 +1,49 @@
+syntax = "proto3";
+package auth;
+option go_package = ".;auth";
+
+message CheckAuthReq {
+    string sysid = 1;
+    string url = 2;
+    string bkToken = 3;
+    string clientIp = 4;
+    bool tfCheck = 5;
+}
+
+message ResBody {
+    int32 code = 1;
+    string msg = 2;
+    TokenClaims data = 3;
+}
+
+message UserDetail {
+    string uid = 1;
+}
+
+message TokenClaims {
+    string uid = 1;
+    string username = 2;
+    string loginIp = 3;
+    string sysid = 4;
+    string realname = 5;
+    string phone = 6;
+}
+
+message Token {
+    string token = 1;
+}
+
+message LoginResult {
+    string token = 1;
+    TokenClaims user = 2;
+}
+
+service AuthService {
+    rpc CheckAuth(CheckAuthReq) returns(UserDetail) {};
+    //创建token
+    rpc GenLoginToken(TokenClaims) returns (Token) {};
+    //检验token
+    rpc CheckToken(Token) returns (ResBody) {};
+    //登录系统
+    rpc LoginByUid(TokenClaims) returns (LoginResult) {};
+}

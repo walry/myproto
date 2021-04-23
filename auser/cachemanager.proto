@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = ".;auser";
+package auser;
+
+import "common.proto";
+
+message GetTokenReq {
+    string uid = 1;
+}
+
+message GetTokenRes {
+    string token = 1;
+}
+
+message CacheBktokenReq {
+    string uid = 1;
+    bytes token = 2;
+    int64 expire = 3;
+}
+
+message StringCacheBody {
+    string key = 1;
+    bytes data = 2;
+    int64 expire = 3;
+}
+
+service CacheManagerService {
+    rpc GetCacheToken(GetTokenReq) returns (GetTokenRes) {};
+    rpc CacheBktoken(CacheBktokenReq) returns (BoolRes) {};
+    //设置string类型缓存
+    rpc SetStringCache(StringCacheBody) returns (BoolRes) {};
+    //查询string类型缓存
+    rpc GetStringCache(StringCacheBody) returns (StringCacheBody) {};
+}

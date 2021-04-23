@@ -1,0 +1,44 @@
+syntax = "proto3";
+option go_package = ".;auser";
+package auser;
+
+//空参数
+message Empty {}
+
+//是否、成功失败等判断型响应
+message BoolRes {
+    bool ok = 1;
+}
+
+message ResCode {
+    int64 code = 1;
+}
+
+//员工信息
+message UserInfo {
+    int64 id = 1;     //员工id
+    string username = 2;  //员工账号
+    string password = 3;  //登录密码
+    string realname = 4;  //真实姓名
+    string workno = 5;   //工号
+    string gender = 6;   //性别
+    string birthday = 7;  //生日
+    string phone = 8;   //电话
+    string email = 9;   //邮箱
+    repeated int64 depart = 10;   //部门
+    bool useemail = 11;   //是否开通邮箱
+    string status = 12;  //账号身份
+    string twoFactor = 13;
+    bool tfEnable = 14;
+    bool deleted = 15;
+}
+
+//部门信息
+message DepartInfo {
+    int64 id = 1;
+    string name = 2;
+    int64 manager = 3;
+    int64 pid = 4;
+    bool isAgent = 5;
+    bool deleted = 6;
+}

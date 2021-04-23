@@ -1,0 +1,117 @@
+syntax = "proto3";
+package auser;
+option go_package = ".;auser";
+
+import "common.proto";
+
+message AddUserReq {
+    UserInfo user = 1;
+    string creatorId = 2;
+}
+
+message UrlAuthReq {
+    string url = 1;
+    string uid = 2;
+}
+
+message SysTwoFactorStateReq {
+    string sysid = 1;
+}
+
+message SysTwoFactorStateRes {
+    string state = 1;
+}
+
+message OpterLogReq {
+    string uid = 1;
+    string method = 2;
+    string action = 3;
+    string query = 4;
+    string queryJson = 5;
+    string clientIp = 6;
+}
+
+message PasswordReq {
+    string uid = 1;
+    string password = 2;
+    string newPass = 3;
+}
+
+message GetMyEmployeeReq {
+    UserInfo user = 1;
+}
+
+message GetMyEmployeeRes {
+    repeated UserInfo user = 1;
+}
+
+message LoginReq {
+    string account = 1;
+    string pwd = 2;
+}
+
+message LogLoginReq {
+    string uid = 1;
+    string ip = 2;
+    string sysid = 3;
+}
+
+message ResetPasswordReq {
+    string uid = 1;
+    string oid = 2;
+    string pwd = 3;
+}
+
+message ImportUserReq {
+    repeated UserInfo user = 1;
+}
+
+message QueryUserReq {
+    int32 current = 1;
+    int32 pageSize = 2;
+    string deleted = 3;
+    string username = 4;
+}
+
+message UserList {
+    string uid = 1;
+    string username = 2;
+    string realname = 3;
+    string create_time = 4;
+    string login_time = 5;
+    string login_ip = 6;
+    string sys_name = 7;
+    string deleted = 8;
+}
+
+message QueryUserRes {
+    repeated UserList list = 1;
+    int32 total = 2;
+}
+
+service AuthUserService {
+    //创建用户
+    rpc AddUser(AddUserReq) returns (ResCode) {};
+    //检查url权限
+    rpc CheckUrlAuth(UrlAuthReq) returns (ResCode) {};
+    //获取系统二次认证状态
+    rpc GetSysTwoFactorState(SysTwoFactorStateReq) returns (SysTwoFactorStateRes) {};
+    //记录登录日志
+    rpc SaveOpterLog(OpterLogReq) returns (BoolRes) {};
+    //修改用户密码
+    rpc UpdateUserPassword(PasswordReq) returns (ResCode) {};
+    //下属员工列表
+    rpc GetMyEmployee(GetMyEmployeeReq) returns (GetMyEmployeeRes) {};
+    //登录系统
+    rpc Login(LoginReq) returns (UserInfo) {};
+    //登录日志
+    rpc LogLoginRecord(LogLoginReq) returns (Empty) {};
+    //重置密码
+    rpc ResetPassword(ResetPasswordReq) returns (Empty) {};
+    //查询单个用户信息
+    rpc QueryUserInfo(UserInfo) returns (UserInfo) {};
+    //批量从CRM导入客户
+    rpc ImportUserFromCrm(ImportUserReq) returns (Empty) {};
+    //分页查询用户列表，支持单个用户查询
+    rpc QueryUserList(QueryUserReq) returns (QueryUserRes) {};
+}
